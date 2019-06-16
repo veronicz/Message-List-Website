@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import Message from "./Message";
-import { connect } from "react-redux";
-import { clearMessages } from "../actions";
+import React, { Component } from 'react';
+import Message from './Message';
+import { connect } from 'react-redux';
+import { clearMessages } from '../actions/MessageListActions';
 
 class MessageList extends Component {
   render() {
@@ -21,7 +21,7 @@ class MessageList extends Component {
 }
 
 const mapStateToProps = state => {
-  return { messages: state.messages };
+  return { messages: state.messages.messageList };
 };
 
 export default connect(

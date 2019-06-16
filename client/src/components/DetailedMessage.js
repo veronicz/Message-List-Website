@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { hideDetailedView } from "../actions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { hideDetailedView } from '../actions/DetailedViewActions';
 
 class DetailedMessage extends Component {
   render() {

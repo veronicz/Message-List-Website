@@ -1,8 +1,8 @@
-import { combineReducers } from "redux";
-import MessagesReducer from "./MessagesReducer";
-import DetailedViewReducer from "./DetailedViewReducer";
+import { combineReducers } from 'redux';
+import messages from './MessagesReducer';
+import view from './DetailedViewReducer';
 
 export default combineReducers({
-  messages: MessagesReducer,
-  view: DetailedViewReducer
+  messages,
+  view
 });

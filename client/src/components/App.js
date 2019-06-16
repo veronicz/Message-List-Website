@@ -1,32 +1,24 @@
 import React, { Component } from 'react';
 import NavigationBar from './NavigationBar';
+import Loading from './Loading';
 import AddMessage from './AddMessageForm';
 import MessageList from './MessageList';
 import DetailedMessage from './DetailedMessage';
+import { connect } from 'react-redux';
+import { fetchMessages } from '../actions/MessageListActions';
 import '../App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { apiResponse: '' };
-  }
-
-  callAPI() {
-    fetch('http://localhost:3001/testAPI')
-      .then(res => res.text())
-      .then(res => this.setState({ apiResponse: res }));
-  }
-
   componentWillMount() {
-    this.callAPI();
+    this.props.fetchMessages();
   }
 
   render() {
     return (
       <div>
-        {this.state.apiResponse}
         <NavigationBar />
         <AddMessage />
+        <Loading />
         <MessageList />
         <DetailedMessage />
       </div>
@@ -34,4 +26,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(
+  null,
+  { fetchMessages }
+)(App);

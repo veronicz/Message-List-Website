@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { deleteMessage, showDetailedView } from "../actions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { deleteMessage } from '../actions/MessageListActions';
+import { showDetailedView } from '../actions/DetailedViewActions';
 
 class Message extends Component {
   handleDelete = e => {

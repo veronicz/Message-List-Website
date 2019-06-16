@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { addMessage } from "../actions";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { addMessage } from '../actions/MessageListActions';
+import { connect } from 'react-redux';
 
 const initState = {
-  name: "",
-  message: ""
+  name: '',
+  message: ''
 };
 
 class AddMessageForm extends Component {
@@ -22,7 +22,7 @@ class AddMessageForm extends Component {
 
     const { name, message } = this.state;
     if (name && !message) {
-      alert("Message is required!");
+      alert('Message is required!');
     } else if (message) {
       this.props.addMessage(this.state);
       this.clearInput();

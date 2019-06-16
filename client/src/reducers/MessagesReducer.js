@@ -1,29 +1,53 @@
-const initMessages = [
-  { id: 1, message: "Hi~~" },
-  { id: 2, name: "Sherry", message: "Have a nice day!" }
-];
-
-const messagesReducer = (messages = initMessages, action) => {
-  if (action.type === "ADD_MESSAGE") {
-    let new_message = action.message;
-    new_message.id = generate_msg_id(messages);
-    return [...messages, new_message];
-  } else if (action.type === "DELETE_MESSAGE") {
-    return messages.filter(msg => {
-      return msg.id !== action.id;
-    });
-  } else if (action.type === "CLEAR_MESSAGES") {
-    return [];
-  }
-  return messages;
+const initState = {
+  isLoading: false,
+  messageList: [],
+  error: null
 };
 
-function generate_msg_id(messages) {
-  if (!messages || messages.length === 0) {
-    return 1;
-  } else {
-    return messages[messages.length - 1].id + 1;
+const messagesReducer = (state = initState, action) => {
+  switch (action.type) {
+    case 'LOADING':
+      return {
+        ...state,
+        isLoading: true,
+        error: null
+      };
+    case 'FAILURE':
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
+    case 'RECEIVE_MESSAGES':
+      return {
+        ...state,
+        isLoading: false,
+        messageList: action.payload
+      };
+    case 'ADD_MESSAGE':
+      let new_message = action.payload;
+      return {
+        ...state,
+        isLoading: false,
+        messageList: [...state.messageList, new_message]
+      };
+    case 'DELETE_MESSAGE':
+      return {
+        ...state,
+        isLoading: false,
+        messageList: state.messageList.filter(
+          msg => msg.id !== action.payload.id
+        )
+      };
+    case 'CLEAR_MESSAGES':
+      return {
+        ...state,
+        isLoading: false,
+        messageList: []
+      };
+    default:
+      return state;
   }
-}
+};
 
 export default messagesReducer;
