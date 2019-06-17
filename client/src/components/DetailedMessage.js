@@ -1,37 +1,64 @@
 import React, { Component } from 'react';
+import ContentEditable from 'react-contenteditable';
 import { connect } from 'react-redux';
+import { updateMessage } from '../actions/MessageListActions';
 import { hideDetailedView } from '../actions/DetailedViewActions';
 
 class DetailedMessage extends Component {
+  state = {
+    id: this.props.message.id,
+    name: this.props.message.name,
+    message: this.props.message.message
+  };
+
+  handleNameChange = e => {
+    this.setState({
+      name: e.target.value
+    });
+  };
+
+  handleMessageChange = e => {
+    this.setState({
+      message: e.target.value
+    });
+  };
+
   render() {
-    const { message, hideDetailedView } = this.props;
-    if (message) {
-      let content = message.name
-        ? `${message.name}: ${message.message}`
-        : message.message;
-      return (
-        <div className="detailed-modal">
-          <div className="detailed-content-container">
-            <div className="detailed-content">
-              <div className="close" onClick={() => hideDetailedView()}>
-                x
-              </div>
-              {content}
+    const { hideDetailedView, updateMessage } = this.props;
+    const { message, name } = this.state;
+    return (
+      <div className="detailed-modal">
+        <div className="detailed-content-container">
+          <div className="detailed-content">
+            <div className="close" onClick={() => hideDetailedView()}>
+              x
             </div>
+            {name ? (
+              <span>
+                <ContentEditable
+                  className="editable-message"
+                  html={name}
+                  onChange={this.handleNameChange}
+                />
+                :&nbsp;
+              </span>
+            ) : null}
+            <ContentEditable
+              className="editable-message"
+              html={message}
+              onChange={this.handleMessageChange}
+            />
           </div>
+          <button className="save" onClick={() => updateMessage(this.state)}>
+            Save
+          </button>
         </div>
-      );
-    } else {
-      return null;
-    }
+      </div>
+    );
   }
 }
 
-const mapStateToProps = state => {
-  return { message: state.view };
-};
-
 export default connect(
-  mapStateToProps,
-  { hideDetailedView }
+  null,
+  { hideDetailedView, updateMessage }
 )(DetailedMessage);

@@ -1,3 +1,5 @@
+import { hideDetailedView } from './DetailedViewActions';
+
 export const request_start = () => {
   return {
     type: 'LOADING'
@@ -22,6 +24,20 @@ export const addMessageSuccess = msg => {
   return {
     type: 'ADD_MESSAGE',
     payload: msg
+  };
+};
+
+export const updateMessageComplete = msg => {
+  return {
+    type: 'UPDATE_MESSAGE',
+    payload: msg
+  };
+};
+
+export const updateMessageSuccess = msg => {
+  return (dispatch, getState) => {
+    dispatch(hideDetailedView());
+    dispatch(updateMessageComplete(msg));
   };
 };
 
@@ -73,6 +89,23 @@ export const addMessage = msg => {
         body: JSON.stringify(msg)
       },
       addMessageSuccess
+    );
+  };
+};
+
+export const updateMessage = msg => {
+  return (dispatch, getState) => {
+    makeAPICall(
+      dispatch,
+      {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(msg)
+      },
+      updateMessageSuccess,
+      `${messagesEndpoint}/${msg.id}`
     );
   };
 };

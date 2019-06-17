@@ -116,6 +116,9 @@ input[type='text'] {
 
 /* background from https://cdn.webshopapp.com/shops/252222/files/230724740/650x750x2/image.jpg */
 .detailed-content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   width: 80%;
   background: url(images/ice-cream.png);
   background-size: 20%;
@@ -129,6 +132,16 @@ input[type='text'] {
   border-radius: 4px;
   word-break: break-word;
   hyphens: auto;
+}
+
+.editable-message {
+  display: inline;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.detailed-content-container .save {
+  align-self: center;
 }
 
 .close {

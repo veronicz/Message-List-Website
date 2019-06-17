@@ -31,6 +31,15 @@ const messagesReducer = (state = initState, action) => {
         isLoading: false,
         messageList: [...state.messageList, new_message]
       };
+    case 'UPDATE_MESSAGE':
+      let updated_message = action.payload;
+      return {
+        ...state,
+        isLoading: false,
+        messageList: state.messageList.map(msg =>
+          msg.id === updated_message.id ? updated_message : msg
+        )
+      };
     case 'DELETE_MESSAGE':
       return {
         ...state,

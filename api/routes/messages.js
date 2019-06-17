@@ -11,9 +11,19 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  new_msg = req.body;
-  new_msg.id = generate_msg_id();
-  messages.push(new_msg);
+  addMessage(req.body);
+  res.json(new_msg);
+});
+
+router.put('/:id', function(req, res, next) {
+  let target_msg = messages.find(msg => msg.id === parseInt(req.params.id));
+  let new_msg = req.body;
+  if (target_msg) {
+    target_msg.name = new_msg.name;
+    target_msg.message = new_msg.message;
+  } else {
+    addMessage(new_msg);
+  }
   res.json(new_msg);
 });
 
@@ -33,6 +43,11 @@ router.delete('/', function(req, res, next) {
   messages = [];
   res.json(messages);
 });
+
+function addMessage(msg) {
+  msg.id = generate_msg_id();
+  messages.push(msg);
+}
 
 function generate_msg_id() {
   if (messages.length === 0) {

@@ -20,13 +20,19 @@ class App extends Component {
         <AddMessage />
         <Loading />
         <MessageList />
-        <DetailedMessage />
+        {this.props.message ? (
+          <DetailedMessage message={this.props.message} />
+        ) : null}
       </div>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return { message: state.view };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   { fetchMessages }
 )(App);
