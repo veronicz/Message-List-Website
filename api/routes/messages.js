@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   addMessage(req.body);
-  res.json(new_msg);
+  res.json(req.body);
 });
 
 router.put('/:id', function(req, res, next) {
