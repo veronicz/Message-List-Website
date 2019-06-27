@@ -41,10 +41,10 @@ export const updateMessageSuccess = msg => {
   };
 };
 
-export const deleteMessageSuccess = id => {
+export const deleteMessageSuccess = msg => {
   return {
     type: 'DELETE_MESSAGE',
-    payload: id
+    payload: msg
   };
 };
 
@@ -58,16 +58,14 @@ const messagesEndpoint = 'http://localhost:3001/messages';
 
 function makeAPICall(dispatch, options, callback, url = messagesEndpoint) {
   dispatch(request_start());
-  setTimeout(function() {
-    fetch(url, options)
-      .then(res => res.json())
-      .then(messages => {
-        dispatch(callback(messages));
-      })
-      .catch(err => {
-        dispatch(request_error(err));
-      });
-  }, 500);
+  fetch(url, options)
+    .then(res => res.json())
+    .then(res => {
+      dispatch(callback(res));
+    })
+    .catch(err => {
+      dispatch(request_error(err));
+    });
 }
 
 export const fetchMessages = () => {
@@ -105,7 +103,7 @@ export const updateMessage = msg => {
         body: JSON.stringify(msg)
       },
       updateMessageSuccess,
-      `${messagesEndpoint}/${msg.id}`
+      `${messagesEndpoint}/${msg._id}`
     );
   };
 };

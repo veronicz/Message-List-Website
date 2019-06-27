@@ -1,60 +1,82 @@
-var express = require('express');
-var router = express.Router();
-
-var messages = [
-  { id: 1, message: 'Hi~~' },
-  { id: 2, name: 'Sherry', message: 'Have a nice day!' }
-];
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose');
+const Message = require('../models/message');
 
 router.get('/', function(req, res, next) {
-  res.json(messages);
+  Message.find()
+    .exec()
+    .then(messages => {
+      console.log(messages);
+      res.json(messages);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
 });
 
 router.post('/', function(req, res, next) {
-  addMessage(req.body);
-  res.json(req.body);
+  const message = new Message({
+    _id: new mongoose.Types.ObjectId(),
+    name: req.body.name,
+    message: req.body.message
+  });
+  message
+    .save()
+    .then(result => {
+      console.log(result);
+      res.json(result);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
 });
 
 router.put('/:id', function(req, res, next) {
-  let target_msg = messages.find(msg => msg.id === parseInt(req.params.id));
-  let new_msg = req.body;
-  if (target_msg) {
-    target_msg.name = new_msg.name;
-    target_msg.message = new_msg.message;
-  } else {
-    addMessage(new_msg);
-  }
-  res.json(new_msg);
+  const id = req.params.id;
+  Message.findOneAndUpdate(
+    { _id: id },
+    { $set: { name: req.body.name, message: req.body.message } },
+    { new: true }
+  )
+    .exec()
+    .then(result => {
+      console.log(result);
+      res.json(result);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
 });
 
 router.delete('/:id', function(req, res, next) {
-  let msg = messages.find(msg => msg.id === parseInt(req.params.id));
-  if (msg) {
-    let index = messages.indexOf(msg);
-    messages.splice(index, 1);
-    res.json(msg);
-  } else {
-    res.status(404);
-    res.send(`Message with id ${id} is not found`);
-  }
+  const id = req.params.id;
+  Message.findOneAndDelete({ _id: id })
+    .exec()
+    .then(result => {
+      console.log(result);
+      res.json(result);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
 });
 
 router.delete('/', function(req, res, next) {
-  messages = [];
-  res.json(messages);
+  mongoose.connection.db.dropCollection('messages', function(err, result) {
+    //MongoError code 26 means no db with given namespace exists (already deleted)
+    if (err && err.code != 26) {
+      console.log(err);
+      res.status(500).json({ error: err });
+    } else {
+      console.log(result);
+      res.json(result);
+    }
+  });
 });
-
-function addMessage(msg) {
-  msg.id = generate_msg_id();
-  messages.push(msg);
-}
-
-function generate_msg_id() {
-  if (messages.length === 0) {
-    return 1;
-  } else {
-    return messages[messages.length - 1].id + 1;
-  }
-}
 
 module.exports = router;

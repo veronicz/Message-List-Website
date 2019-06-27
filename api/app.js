@@ -4,12 +4,20 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var messagesRouter = require('./routes/messages');
 
 var app = express();
+
+mongoose.connect(
+  'mongodb+srv://m001-student:m001-mongodb-basics@sandbox-trqmy.mongodb.net/test?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true
+  }
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

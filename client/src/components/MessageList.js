@@ -7,7 +7,7 @@ class MessageList extends Component {
   render() {
     const { messages, clearMessages } = this.props;
     const messageList = messages.map(msg => {
-      return <Message key={msg.id} message={msg} />;
+      return <Message key={msg._id} message={msg} />;
     });
     return (
       <div>

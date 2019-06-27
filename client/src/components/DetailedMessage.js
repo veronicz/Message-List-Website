@@ -6,7 +6,7 @@ import { hideDetailedView } from '../actions/DetailedViewActions';
 
 class DetailedMessage extends Component {
   state = {
-    id: this.props.message.id,
+    _id: this.props.message._id,
     name: this.props.message.name,
     message: this.props.message.message
   };

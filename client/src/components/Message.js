@@ -7,7 +7,7 @@ class Message extends Component {
   handleDelete = e => {
     const { message, deleteMessage } = this.props;
     e.stopPropagation();
-    deleteMessage(message.id);
+    deleteMessage(message._id);
   };
 
   render() {

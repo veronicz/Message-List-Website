@@ -37,7 +37,7 @@ const messagesReducer = (state = initState, action) => {
         ...state,
         isLoading: false,
         messageList: state.messageList.map(msg =>
-          msg.id === updated_message.id ? updated_message : msg
+          msg._id == updated_message._id ? updated_message : msg
         )
       };
     case 'DELETE_MESSAGE':
@@ -45,7 +45,7 @@ const messagesReducer = (state = initState, action) => {
         ...state,
         isLoading: false,
         messageList: state.messageList.filter(
-          msg => msg.id !== action.payload.id
+          msg => msg._id !== action.payload._id
         )
       };
     case 'CLEAR_MESSAGES':
