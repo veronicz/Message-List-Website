@@ -3,12 +3,32 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Message = require('../models/message');
 
+const initMessages = [
+  { _id: new mongoose.Types.ObjectId(), message: 'Hi~~' },
+  {
+    _id: new mongoose.Types.ObjectId(),
+    name: 'Sherry',
+    message: 'Have a nice day!'
+  }
+];
+
 router.get('/', function(req, res, next) {
   Message.find()
     .exec()
     .then(messages => {
-      console.log(messages);
-      res.json(messages);
+      if (messages.length == 0) {
+        console.log('loading default messages...');
+        Message.insertMany(initMessages)
+          .then(defaultMessages => {
+            res.json(defaultMessages);
+          })
+          .catch(err => {
+            console.log(err);
+            res.json([]);
+          });
+      } else {
+        res.json(messages);
+      }
     })
     .catch(err => {
       console.log(err);
