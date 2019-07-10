@@ -54,7 +54,7 @@ export const clearMessagesSuccess = () => {
   };
 };
 
-const messagesEndpoint = 'http://localhost:3001/messages';
+const messagesEndpoint = '/messages';
 
 function makeAPICall(dispatch, options, callback, url = messagesEndpoint) {
   dispatch(request_start());
