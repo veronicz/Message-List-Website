@@ -14,7 +14,8 @@ var messagesRouter = require('./routes/messages');
 var app = express();
 
 mongoose.connect(
-  'mongodb+srv://m001-student:m001-mongodb-basics@sandbox-trqmy.mongodb.net/test?retryWrites=true&w=majority',
+  process.env.MONGODB_URI ||
+    'mongodb+srv://m001-student:m001-mongodb-basics@sandbox-trqmy.mongodb.net/test?retryWrites=true&w=majority',
   {
     useNewUrlParser: true
   }
