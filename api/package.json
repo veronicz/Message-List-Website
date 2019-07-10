@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon start.js"
+    "start": "nodemon start.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -16,6 +17,5 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
-  },
-  "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  }
 }
